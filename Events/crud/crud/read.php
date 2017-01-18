@@ -10,7 +10,7 @@
 	} else {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT * FROM customers where id = ?";
+		$sql = "SELECT * FROM events where id = ?";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
@@ -31,35 +31,43 @@
     
     			<div class="span10 offset1">
     				<div class="row">
-		    			<h3>Read a Customer</h3>
+		    			<h3>Read a event</h3>
 		    		</div>
 		    		
 	    			<div class="form-horizontal" >
 					  <div class="control-group">
-					    <label class="control-label">Name</label>
+					    <label class="control-label">event date</label>
 					    <div class="controls">
 						    <label class="checkbox">
-						     	<?php echo $data['name'];?>
+						     	<?php echo $data['event_date'];?>
 						    </label>
 					    </div>
 					  </div>
 					  <div class="control-group">
-					    <label class="control-label">Email Address</label>
+					    <label class="control-label">event time</label>
 					    <div class="controls">
 					      	<label class="checkbox">
-						     	<?php echo $data['email'];?>
+						     	<?php echo $data['event_time'];?>
 						    </label>
 					    </div>
 					  </div>
 					  <div class="control-group">
-					    <label class="control-label">Mobile Number</label>
+					    <label class="control-label">event location</label>
 					    <div class="controls">
 					      	<label class="checkbox">
-						     	<?php echo $data['mobile'];?>
+						     	<?php echo $data['event_location'];?>
 						    </label>
 					    </div>
 					  </div>
-					    <div class="form-actions">
+					   <div class="control-group">
+					    <label class="control-label">event description</label>
+					    <div class="controls">
+					      	<label class="checkbox">
+						     	<?php echo $data['event_description'];?>
+						    </label>
+					    </div>
+					  </div>
+					   <div class="form-actions">
 						  <a class="btn" href="index.php">Back</a>
 					   </div>
 					
