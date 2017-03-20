@@ -1,18 +1,18 @@
 <?php 
 	require 'Database.php';
 	$id = null;
-	if ( !empty($_GET['Pro_ID'])) {
-		$Pro_ID = $_REQUEST['Pro_ID'];
+	if ( !empty($_GET['Emp_Id'])) {
+		$Emp_Id = $_REQUEST['Emp_Id'];
 	}
 	
-	if ( null==$Pro_ID) {
-		header("Location: Index.php");
+	if ( null==$Emp_Id) {
+		header("Location: EmpIndex.php");
 	} else {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT * FROM Projects where Pro_ID = ?";
+		$sql = "SELECT * FROM Employees where Emp_Id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($Pro_ID));
+		$q->execute(array($Emp_Id));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 		Database::disconnect();
 	}
@@ -31,45 +31,46 @@
     
     			<div class="span10 offset1">
     				<div class="row">
-		    			<h3>Read a Project</h3>
+		    			<h3>Read a Employee</h3>
 		    		</div>
 		    		
 	    			<div class="form-horizontal" >
 					  <div class="control-group">
-					    <label class="control-label">Project Name</label>
+					    <label class="control-label">Employee Name</label>
 					    <div class="controls">
 						    <label class="checkbox">
-						     	<?php echo $data['Pro_Name'];?>
+						     	<?php echo $data['Emp_Name'];?>
 						    </label>
 					    </div>
 					  </div>
 					  <div class="control-group">
-					    <label class="control-label">Project Description</label>
+					    <label class="control-label">Job Title</label>
 					    <div class="controls">
 					      	<label class="checkbox">
-						     	<?php echo $data['Pro_Description'];?>
+						     	<?php echo $data['Emp_JobTitle'];?>
 						    </label>
 					    </div>
 					  </div>
 					  <div class="control-group">
-					    <label class="control-label">Project Manager</label>
+					    <label class="control-label">Phone</label>
 					    <div class="controls">
 					      	<label class="checkbox">
-						     	<?php echo $data['Pro_Manager'];?>
+						     	<?php echo $data['Emp_Phone'];?>
 						    </label>
 					    </div>
-					  </div>
 					  </div>
 					   <div class="control-group">
-					    <label class="control-label">Project Progress</label>
+					    <label class="control-label">Email</label>
 					    <div class="controls">
 					      	<label class="checkbox">
-						     	<?php echo $data['Pro_Progress'];?>
+						     	<?php echo $data['Emp_Email'];?>
 						    </label>
 					    </div>
 					  </div>
+					   </div>
+					   
 					   <div class="form-actions">
-						  <a class="btn" href="Index.php">Back</a>
+						  <a class="btn" href="EmpIndex.php">Back</a>
 					   </div>
 							 
 					</div>

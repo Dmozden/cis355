@@ -7,7 +7,13 @@
 </head>
  
 <body>
+				
     <div class="container">
+		<div class="row">
+			<p>
+				<a href="EmpIndex.php" class="btn btn-success">Employee View</a>
+			</p>
+		</div>
             <div class="row">
                 <h3>Projects</h3>
             </div>
@@ -21,7 +27,6 @@
                       <th>Project Name</th>
                       <th>Project Description</th>
                       <th>Project Manager</th>
-					  <th>Project Expected Completion Date</th>
 					  <th>Project Progress</th>
 					  <th>Action</th>
                     </tr>
@@ -36,10 +41,9 @@
                             echo '<td>'. $row['Pro_Name'] . '</td>';
                             echo '<td>'. $row['Pro_Description'] . '</td>';
                             echo '<td>'. $row['Pro_Manager'] . '</td>';
-							echo '<td>'. $row['Pro_ExpectedCompletionDate'] . '</td>';
 							echo '<td>'. $row['Pro_Progress'] . '</td>';
 							echo '<td width=250>';
-							echo '<a class="btn" href="ProRead.php?Pro_ID='.$row['Pro_ID'].'">Read</a>';
+							echo '<a class="btn" href="ProRead.php?Pro_ID='.$row['Pro_ID'].'">View</a>';
 							echo '&nbsp;';
 							echo '<a class="btn btn-success" href="ProUpdate.php?Pro_ID='.$row['Pro_ID'].'">Update</a>';
 							echo '&nbsp;';
@@ -49,6 +53,7 @@
                    }
                    Database::disconnect();
                   ?>
+				 
                   </tbody>
             </table>
         </div>

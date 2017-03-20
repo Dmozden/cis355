@@ -2,29 +2,28 @@
 	
 	require 'Database.php';
 	
-	$Pro_Id = null;
+	$Pro_ID = null;
 	if ( !empty($_GET['Pro_ID'])) {
 		$Pro_ID = $_REQUEST['Pro_ID'];
 	}
 	
-	//if ( null== $Pro_ID ) {
-	//	header("Location: Index.php");
-	//}
+	if ( null==$Pro_ID ) {
+		header("Location: Index.php");
+	}
 
 	if ( !empty($_POST)) {
 		// keep track validation errors
 		$Pro_NameError = null;
 		$Pro_DescriptionError = null;
 		$Pro_ManagerError = null;
-		$Pro_ExpectedCompletionDateError = null;
 		$Pro_ProgressError = null;
 		
 		// keep track post values
 		$Pro_Name = $_POST['Pro_Name'];
 		$Pro_Description = $_POST['Pro_Description'];
 		$Pro_Manager = $_POST['Pro_Manager'];
-		$Pro_ExpectedCompletionDate = $_POST['Pro_ExpectedCompletionDate'];
 		$Pro_Progress = $_POST['Pro_Progress'];
+	
 		// validate input
 		$valid = true;
 		if (empty($Pro_Name)) {
@@ -42,24 +41,18 @@
 			$valid = false;
 		}
 		
-		if (empty($Pro_ExpectedCompletionDate)) {
-			$Pro_ExpectedCompletionDateError = 'Please enter a project expected completion date';
-			$valid = false;
-		}
-		
 		if (empty($Pro_Progress)) {
 			$Pro_ProgressError = 'Please enter the project progress percent';
 			$valid = false;
 		}
-		
-	
+			
 		// update data
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE Projects  set Pro_Name = ?, Pro_Description = ?, Pro_Manager =?, Pro_ExpectedCompletionDate = ?, Pro_Progress = ? WHERE Pro_ID = ?";
+			$sql = "UPDATE Projects SET Pro_Name = ?, Pro_Description = ?, Pro_Manager =?, Pro_Progress = ? WHERE Pro_ID = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($Pro_Name,$Pro_Description,$Pro_Manager,$Pro_ExpectedCompletionDate,$Pro_Progress));
+			$q->execute(array($Pro_Name,$Pro_Description,$Pro_Manager,$Pro_Progress,$Pro_ID));
 			Database::disconnect();
 			header("Location: Index.php");
 		}
@@ -73,7 +66,6 @@
 		$Pro_Name = $data['Pro_Name'];
 		$Pro_Description = $data['Pro_Description'];
 		$Pro_Manager = $data['Pro_Manager'];
-		$Pro_ExpectedCompletionDate = $data['Pro_ExpectedCompletionDate'];
 		$Pro_Progress = $data['Pro_Progress'];
 		Database::disconnect();
 	}
@@ -125,17 +117,7 @@
                         </div>
                       </div>
 					  
-					   <div class="control-group <?php echo !empty($Pro_ExpectedCompletionDateError)?'error':'';?>">
-                        <label class="control-label">Project Expected Completion Date</label>
-                        <div class="controls">
-                            <input name="Pro_ExpectedCompletionDate" type="text" value="<?php echo !empty($Pro_ExpectedCompletionDate)?$Pro_ExpectedCompletionDate:'';?>">
-                            <?php if (!empty($Pro_ExpectedCompletionDateError)): ?>
-                                <span class="help-inline"><?php echo $Pro_ExpectedCompletionDateError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
-					  
-					   <div class="control-group <?php echo !empty($Pro_ProgressError)?'error':'';?>">
+					  <div class="control-group <?php echo !empty($Pro_ProgressError)?'error':'';?>">
                         <label class="control-label">Project Progress</label>
                         <div class="controls">
                             <input name="Pro_Progress" type="text" value="<?php echo !empty($Pro_Progress)?$Pro_Progress:'';?>">

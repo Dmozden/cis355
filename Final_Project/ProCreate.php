@@ -7,14 +7,14 @@
 		$Pro_NameError = null;
 		$Pro_DescriptionError = null;
 		$Pro_ManagerError = null;
-		$Pro_ExpectedCompletionDateError = null;
+	
 		$Pro_ProgressError = null;
 		
 		// keep track post values
 		$Pro_Name = $_POST['Pro_Name'];
 		$Pro_Description = $_POST['Pro_Description'];
 		$Pro_Manager = $_POST['Pro_Manager'];
-		$Pro_ExpectedCompletionDate = $_POST['Pro_ExpectedCompletionDate'];
+	
 		$Pro_Progress = $_POST['Pro_Progress'];
 		// validate input
 		$valid = true;
@@ -33,10 +33,7 @@
 			$valid = false;
 		}
 		
-		if (empty($Pro_ExpectedCompletionDate)) {
-			$Pro_ExpectedCompletionDateError = 'Please enter a project expected completion date';
-			$valid = false;
-		}
+		
 		
 	//	if (empty($Pro_Progress)) {
 	//		$Pro_ProgressError = 'Please enter the project progress percent';
@@ -47,9 +44,9 @@
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "INSERT INTO Projects (Pro_Name,Pro_Description,Pro_Manager,Pro_ExpectedCompletionDate,Pro_Progress) values(?,?,?,?,?)";
+			$sql = "INSERT INTO Projects (Pro_Name,Pro_Description,Pro_Manager,Pro_Progress) values(?,?,?,?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($Pro_Name,$Pro_Description,$Pro_Manager,$Pro_ExpectedCompletionDate,$Pro_Progress));
+			$q->execute(array($Pro_Name,$Pro_Description,$Pro_Manager,$Pro_Progress));
 			Database::disconnect();
 			header("Location: Index.php");
 		}
@@ -102,15 +99,7 @@
                         </div>
                       </div>
 					  
-					   <div class="control-group <?php echo !empty($Pro_ExpectedCompletionDateError)?'error':'';?>">
-                        <label class="control-label">Project Expected Completion Date</label>
-                        <div class="controls">
-                            <input name="Pro_ExpectedCompletionDate" type="text" value="<?php echo !empty($Pro_ExpectedCompletionDate)?$Pro_ExpectedCompletionDate:'';?>">
-                            <?php if (!empty($Pro_ExpectedCompletionDateError)): ?>
-                                <span class="help-inline"><?php echo $Pro_ExpectedCompletionDateError;?></span>
-                            <?php endif;?>
-                        </div>
-                      </div>
+					   
   				   <div class="control-group <?php echo !empty($Pro_ProgressError)?'error':'';?>">
                         <label class="control-label">Project Progress</label>
                         <div class="controls">
