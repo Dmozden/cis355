@@ -10,9 +10,7 @@
 				
     <div class="container">
 		<div class="row">
-			<p>
-				<a href="EmpIndex.php" class="btn btn-success">Employee View</a>
-			</p>
+	
 		</div>
             <div class="row">
                 <h3>Projects</h3>
@@ -20,6 +18,7 @@
             <div class="row">
                 <p>
                     <a href="ProCreate.php" class="btn btn-success">Create</a>
+					<a href="EmpIndex.php" class="btn btn-primary">Employee View</a>
                 </p>
 				<table class="table table-striped table-bordered">
                   <thead>

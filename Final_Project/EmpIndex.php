@@ -9,9 +9,7 @@
 <body>
     <div class="container">
             <div class="row">
-				<p>
-					<a href="Index.php" class="btn btn-success">Project View</a>
-				</p>
+		
 			</div>
 			
 			<div class="row">
@@ -20,6 +18,7 @@
             <div class="row">
                 <p>
                     <a href="EmpCreate.php" class="btn btn-success">Create</a>
+					<a href="Index.php" class="btn btn-primary">Project View</a>
                 </p>
 				<table class="table table-striped table-bordered">
                   <thead>
