@@ -7,24 +7,25 @@
 	header('Location: login.php');     // go to login page
 	exit;
 	}
-	$Pro_ID = 0;
 	
-	if ( !empty($_GET['Pro_ID'])) {
-		$Pro_ID = $_REQUEST['Pro_ID'];
+	$Emp_Id = 0;
+	
+	if ( !empty($_GET['Emp_Id'])) {
+		$Emp_Id = $_REQUEST['Emp_Id'];
 	}
 	
 	if ( !empty($_POST)) {
 		// keep track post values
-		$Pro_ID = $_POST['Pro_ID'];
+		$Emp_Id = $_POST['Emp_Id'];
 		
 		// delete data
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "DELETE FROM Projects WHERE Pro_ID = ?";
+		$sql = "UPDATE Employees SET Employees.Project_Number = '0' WHERE Emp_Id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($Pro_ID));
+		$q->execute(array($Emp_Id));
 		Database::disconnect();
-		header("Location: Index.php");
+		header("Location: EmpIndex.php");
 		
 	} 
 ?>
@@ -40,14 +41,14 @@
     <div class="container">
     			<div class="span10 offset1">
     				<div class="row">
-		    			<h3>Delete a Project</h3>
+		    			<h3>Remove Employee from Project</h3>
 		    		</div>    		
-	    			<form class="form-horizontal" action="ProDelete.php" method="post">
-	    			  <input type="hidden" name="Pro_ID" value="<?php echo $Pro_ID;?>"/>
-					  <p class="alert alert-error">Are you sure to delete ?</p>
+	    			<form class="form-horizontal" action="EmpRemoveProject.php" method="post">
+	    			  <input type="hidden" name="Emp_Id" value="<?php echo $Emp_Id;?>"/>
+					  <p class="alert alert-error">Are you sure to Remove this employee from this project?</p>
 					  <div class="form-actions">
 						  <button type="submit" class="btn btn-danger">Yes</button>
-						  <a class="btn" href="Index.php">No</a>
+						  <a class="btn" href="EmpIndex.php">No</a>
 						</div>
 					</form>
 				</div>	

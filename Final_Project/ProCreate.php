@@ -1,7 +1,12 @@
 <?php 
 	
 	require 'Database.php';
-
+	session_start();
+	if(!isset($_SESSION["Emp_Id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: login.php');     // go to login page
+	exit;
+	}
 	if ( !empty($_POST)) {
 		// keep track validation errors
 		$Pro_NameError = null;

@@ -2,6 +2,13 @@
 	
 	require 'Database.php';
 	
+		session_start();
+	if(!isset($_SESSION["Emp_Id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: login.php');     // go to login page
+	exit;
+	}
+	
 	$Pro_ID = null;
 	if ( !empty($_GET['Pro_ID'])) {
 		$Pro_ID = $_REQUEST['Pro_ID'];

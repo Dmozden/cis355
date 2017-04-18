@@ -1,3 +1,11 @@
+<?php
+	session_start();
+	if(!isset($_SESSION["Emp_Id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: login.php');     // go to login page
+	exit;
+	}
+	?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +27,7 @@
                 <p>
                     <a href="EmpCreate.php" class="btn btn-success">Create</a>
 					<a href="Index.php" class="btn btn-primary">Project View</a>
+					<a href="api.php" class="btn btn-primary">json view</a>
                 </p>
 				<table class="table table-striped table-bordered">
                   <thead>

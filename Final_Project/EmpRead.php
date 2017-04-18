@@ -1,5 +1,13 @@
 <?php 
 	require 'Database.php';
+	
+	Session_start();
+	if(!isset($_SESSION["Emp_Id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: login.php');     // go to login page
+	exit;
+	}
+	
 	$id = null;
 	if ( !empty($_GET['Emp_Id'])) {
 		$Emp_Id = $_REQUEST['Emp_Id'];
@@ -64,6 +72,15 @@
 					    <div class="controls">
 					      	<label class="checkbox">
 						     	<?php echo $data['Emp_Email'];?>
+						    </label>
+					    </div>
+					  </div>
+					  </div>
+					   <div class="control-group">
+					    <label class="control-label">Project Number</label>
+					    <div class="controls">
+					      	<label class="checkbox">
+						     	<?php echo $data['Project_Number'];?>
 						    </label>
 					    </div>
 					  </div>

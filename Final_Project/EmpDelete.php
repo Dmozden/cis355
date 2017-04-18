@@ -1,5 +1,12 @@
 <?php 
 	require 'Database.php';
+	session_start();
+	if(!isset($_SESSION["Emp_Id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: login.php');     // go to login page
+	exit;
+	}
+
 	$Emp_Id = 0;
 	
 	if ( !empty($_GET['Emp_Id'])) {

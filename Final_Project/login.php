@@ -1,19 +1,13 @@
 <?php
-/* ---------------------------------------------------------------------------
- * filename    : login.php
- * author      : George Corser, gcorser@gmail.com
- * description : This program logs the user in by setting $_SESSION variables
- * ---------------------------------------------------------------------------
- */
-// Start or resume session, and create: $_SESSION[] array
-//session_start(); 
+
+session_start(); 
 require 'Database.php';
 if ( !empty($_POST)) { // if $_POST filled then process the form
 	// initialize $_POST variables
 	$Emp_Name = $_POST['Emp_Name']; // Emp_Name is Emp_email address
-	$Emp_password = $_POST['Emp_password'];
+	$Emp_password = $_POST['Emp_password'];	// verify the Emp_Name/Emp_password
 		
-	// verify the Emp_Name/Emp_password
+
 	$pdo = Database::connect();
 	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$sql = "SELECT * FROM Employees WHERE Emp_Name = ? AND Emp_password = ? LIMIT 1";
@@ -23,15 +17,15 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 	
 	if($data) { // if successful login set session variables
 		echo "success!";
-		//$_SESSION['Emp_Id'] = $data['Emp_Id'];
-		//$sessionEmp_Id = $data['Emp_Id'];
-		//$_SESSION['Emp_Name'] = $data['Emp_Name'];
+		$_SESSION['Emp_Id'] = $data['Emp_Id'];
+		$sessionEmp_Id = $data['Emp_Id'];
+		$_SESSION['Emp_Name'] = $data['Emp_Name'];
 		Database::disconnect();
-		header("Location: Index.php?");//Emp_Id=$sessionEmp_Id ");
+		header("Location: Index.php");
 	}
 	else { // otherwise go to login error page
 		Database::disconnect();
-		//header("Location: login_error.html");
+		header("Location: login_error.html");
 	}
 } 
 // if $_POST NOT filled then display login form, below.
@@ -78,7 +72,7 @@ if ( !empty($_POST)) { // if $_POST filled then process the form
 				<div class="form-actions">
 					<button type="submit" class="btn btn-success">Sign In</button>
 					&nbsp; &nbsp;
-					<!-- <a class="btn btn-primary" href="EmpCreate.php">Sign Up</a> -->
+					<a class="btn btn-primary" href="SignUP.php">Sign Up</a> 
 				</div>
 				
 			</form>

@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<?php
+	session_start();
+	if(!isset($_SESSION["Emp_Id"])){ // if "user" not set,
+	session_destroy();
+	header('Location: login.php');     // go to login page
+	exit;
+	}
+?>
+
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -19,6 +28,7 @@
                 <p>
                     <a href="ProCreate.php" class="btn btn-success">Create</a>
 					<a href="EmpIndex.php" class="btn btn-primary">Employee View</a>
+						<a href="upload.php" class="btn btn-primary">Upload Picture</a>
                 </p>
 				<table class="table table-striped table-bordered">
                   <thead>

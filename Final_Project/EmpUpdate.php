@@ -2,13 +2,20 @@
 	
 	require 'Database.php';
 	
+	session_start();
+	if(!isset($_SESSION["Emp_Id"])){ // if "user" not set,
+		session_destroy();
+		header('Location: login.php');     // go to login page
+		exit;
+	}
+	
 	$Emp_Id = null;
 	if ( !empty($_GET['Emp_Id'])) {
 		$Emp_Id = $_REQUEST['Emp_Id'];
 	}
 	
 	if ( null==$Emp_Id ) {
-		header("Location: EmpEmpIndex.php");
+		header("Location: EmpIndex.php");
 	}
 
 	if ( !empty($_POST)) {
@@ -17,12 +24,14 @@
 		$Emp_JobTitleError = null;
 		$Emp_PhoneError = null;
 		$Emp_EmailError = null;
+		$Project_Number = null;
 		
 		// keep track post values
 		$Emp_Name = $_POST['Emp_Name'];
 		$Emp_JobTitle = $_POST['Emp_JobTitle'];
 		$Emp_Phone = $_POST['Emp_Phone'];
 		$Emp_Email = $_POST['Emp_Email'];
+		$Project_Number = $_POST['Project_Number'];
 	
 		// validate input
 		$valid = true;
@@ -45,14 +54,18 @@
 			$Emp_EmailError = 'Please enter the project progress percent';
 			$valid = false;
 		}
+		if (empty($Project_Number)) {
+			$Project_NumberError = 'Please enter the project number';
+			$valid = false;
+		}
 			
 		// update data
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE Employees SET Emp_Name = ?, Emp_JobTitle = ?, Emp_Phone =?, Emp_Email = ? WHERE Emp_Id = ?";
+			$sql = "UPDATE Employees SET Emp_Name = ?, Emp_JobTitle = ?, Emp_Phone =?, Emp_Email = ?, Project_Number = ? WHERE Emp_Id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($Emp_Name,$Emp_JobTitle,$Emp_Phone,$Emp_Email,$Emp_Id));
+			$q->execute(array($Emp_Name,$Emp_JobTitle,$Emp_Phone,$Emp_Email,$Project_Number,$Emp_Id));
 			Database::disconnect();
 			header("Location: EmpIndex.php");
 		}
@@ -64,9 +77,10 @@
 		$q->execute(array($Emp_Id));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 		$Emp_Name = $data['Emp_Name'];
-		$Emp_JobTitleError = $data['Emp_JobTitle'];
+		$Emp_JobTitle = $data['Emp_JobTitle'];
 		$Emp_Phone = $data['Emp_Phone'];
 		$Emp_Email = $data['Emp_Email'];
+		$Project_Number = $data['Project_Number'];
 		Database::disconnect();
 	}
 ?>
@@ -123,6 +137,15 @@
                             <input name="Emp_Email" type="text" value="<?php echo !empty($Emp_Email)?$Emp_Email:'';?>">
                             <?php if (!empty($Emp_EmailError)): ?>
                                 <span class="help-inline"><?php echo $Emp_EmailError;?></span>
+                            <?php endif;?>
+                        </div>
+                      </div>
+					  <div class="control-group <?php echo !empty($Project_NumberError)?'error':'';?>">
+                        <label class="control-label">Project Number</label>
+                        <div class="controls">
+                            <input name="Project_Number" type="text" value="<?php echo !empty($Project_Number)?$Project_number:'';?>">
+                            <?php if (!empty($Project_NumberError)): ?>
+                                <span class="help-inline"><?php echo $Project_NumberError;?></span>
                             <?php endif;?>
                         </div>
                       </div>
