@@ -1,7 +1,7 @@
  <?php
     if(isset($_FILES['image'])){
       $errors= array();
-	  $move = __DIR__ . '/img/';
+	  $move = __DIR__ . 'img/';
       $file_name = $_FILES['image']['name'];
       $file_size =$_FILES['image']['size'];
       $file_tmp =$_FILES['image']['tmp_name'];
@@ -14,7 +14,7 @@
          $errors[]="extension not allowed, please choose a JPEG or PNG file.";
       }
       
-      if($file_size > 500000){
+      if($file_size > 50000000){
          $errors[]='File size too large';
       }
       
@@ -33,7 +33,6 @@
          <input type="submit"/>
 		 
 		 <ul>
-		 <!--<img src="<?php$move . $_FILES['image']['name'];?>" alt="" style="width:304px;height:228px;"> -->
             <li>Sent file: <?php echo $_FILES['image']['name'];  ?>
             <li>File size: <?php echo $_FILES['image']['size'];  ?>
             <li>File type: <?php echo $_FILES['image']['type'] ?>
