@@ -15,7 +15,9 @@
 	}
 	
 	if ( null==$Emp_Id ) {
-		header("Location: EmpIndex.php");
+		echo "no empId";
+		echo exit();
+		//header("Location: EmpIndex.php");
 	}
 
 	if ( !empty($_POST)) {
@@ -26,6 +28,20 @@
 		$Emp_EmailError = null;
 		$Project_Number = null;
 		
+		// initialize $_FILES variables
+		$fileName = $_FILES['userfile']['name'];
+		$tmpName  = $_FILES['userfile']['tmp_name'];
+		$fileSize = $_FILES['userfile']['size'];
+		$fileType = $_FILES['userfile']['type'];
+		$content = file_get_contents($tmpName);
+		
+	/* 		echo $Emp_Id;
+			echo $fileName;
+			echo $fileSize;
+			echo $fileType;
+			echo $content;
+			exit(); */
+			
 		// keep track post values
 		$Emp_Name = $_POST['Emp_Name'];
 		$Emp_JobTitle = $_POST['Emp_JobTitle'];
@@ -59,15 +75,39 @@
 			$valid = false;
 		}
 			
+		// restrict file types for upload
+		$types = array('image/jpeg','image/gif','image/png');
+		if($filesize > 0) {
+			if(in_array($_FILES['userfile']['type'], $types)) {
+			}
+			else {
+				$filename = null;
+				$filetype = null;
+				$filesize = null;
+				$filecontent = null;
+				$pictureError = 'improper file type';
+				$valid=false;
+				}
+		}	
+			
+			
 		// update data
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE Employees SET Emp_Name = ?, Emp_JobTitle = ?, Emp_Phone =?, Emp_Email = ?, Project_Number = ? WHERE Emp_Id = ?";
+			$sql = "UPDATE Employees SET Emp_Name = ?, Emp_JobTitle = ?, Emp_Phone =?, Emp_Email = ?, Project_Number = ?, filename = ?, filesize = ?,filecontent = ?  WHERE Emp_Id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($Emp_Name,$Emp_JobTitle,$Emp_Phone,$Emp_Email,$Project_Number,$Emp_Id));
+			$q->execute(array($Emp_Name,$Emp_JobTitle,$Emp_Phone,$Emp_Email,$Project_Number,$fileName,$fileSize,$content,$Emp_Id));
+		
+			
+		
+			//picture stuff
+/* 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "INSERT INTO Pictures (Employee_Id,filename,filesize,filecontent) values(?, ?, ?, ?)";
+			$q = $pdo->prepare($sql);
+			$q->execute(array($Emp_Id,$fileName,$fileSize,$content));
 			Database::disconnect();
-			header("Location: EmpIndex.php");
+			header("Location: EmpIndex.php"); */
 		}
 	} else {
 		$pdo = Database::connect();
@@ -81,6 +121,10 @@
 		$Emp_Phone = $data['Emp_Phone'];
 		$Emp_Email = $data['Emp_Email'];
 		$Project_Number = $data['Project_Number'];
+		
+		
+		//display picture
+		
 		Database::disconnect();
 	}
 ?>
@@ -102,7 +146,7 @@
 		    			<h3>Update a Project</h3>
 		    		</div>
     		
-	    			<form class="form-horizontal" action="EmpUpdate.php?Emp_Id=<?php echo $Emp_Id?>" method="post">
+	    			<form class="form-horizontal" action="EmpUpdate.php?Emp_Id=<?php echo $Emp_Id?>" method="post" enctype="multipart/form-data">
 					  <div class="control-group <?php echo !empty($Emp_NameError)?'error':'';?>">
                         <label class="control-label">Name</label>
                         <div class="controls">
@@ -149,10 +193,25 @@
                             <?php endif;?>
                         </div>
                       </div>
-					   <div class="form-actions">
-						  <button type="submit" class="btn btn-success">Update</button>
-						  <a class="btn" href="EmpIndex.php">Back</a>
+					  
+					  <div class="control-group <?php echo !empty($pictureError)?'error':'';?>">
+							<label class="control-label">Picture</label>
+								<div class="controls">
+							<input type="hidden" name="MAX_FILE_SIZE" value="16000000">
+							<input name="userfile" type="file" id="userfile">
+						
+							</div>
 						</div>
+					  
+					    
+						  <button type="submit" class="btn btn-success">Update</button>
+						
+							<div>
+							<a class="btn" href="EmpIndex.php">Back</a>
+							</div>
+					
+					</div>
+						
 					</form>
 				</div>
     </div> <!-- /container -->

@@ -28,7 +28,7 @@
                 <p>
                     <a href="ProCreate.php" class="btn btn-success">Create</a>
 					<a href="EmpIndex.php" class="btn btn-primary">Employee View</a>
-						<a href="upload.php" class="btn btn-primary">Upload Picture</a>
+					
                 </p>
 				<table class="table table-striped table-bordered">
                   <thead>

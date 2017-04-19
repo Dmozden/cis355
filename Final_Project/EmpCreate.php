@@ -112,6 +112,16 @@
                             <?php endif;?>
                         </div>
                       </div>
+					  
+					  					  <div class="control-group <?php echo !empty($pictureError)?'error':'';?>">
+							<label class="control-label">Picture</label>
+								<div class="controls">
+							<input type="hidden" name="MAX_FILE_SIZE" value="16000000">
+							<input name="userfile" type="file" id="userfile">
+						
+							</div>
+						</div>
+					  
   				      <div class="form-actions">
                           <button type="submit" class="btn btn-success">Create</button>
                           <a class="btn" href="EmpIndex.php">Back</a>
